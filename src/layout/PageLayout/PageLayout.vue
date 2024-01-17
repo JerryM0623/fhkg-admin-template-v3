@@ -1,11 +1,11 @@
 <script setup>
-import { RouterView } from 'vue-router'
-import AsideMenuList from '@/layout/PageLayout/components/AsideMenuList/AsideMenuList.vue'
-import HeaderBar from '@/layout/PageLayout/components/HeaderBar/HeaderBar.vue'
+import { RouterView } from 'vue-router';
+import AsideMenuList from '@/layout/PageLayout/components/AsideMenuList/AsideMenuList.vue';
+import HeaderBar from '@/layout/PageLayout/components/HeaderBar/HeaderBar.vue';
 
 defineOptions({
   name: 'LayoutPage'
-})
+});
 </script>
 
 <template>
@@ -18,9 +18,15 @@ defineOptions({
         <HeaderBar />
       </el-header>
       <el-main>
-        <el-card shadow="never">
-          <RouterView />
-        </el-card>
+        <RouterView>
+          <template #default="{ Component, route }">
+            <transition name="slide-fade">
+              <div class="transition-wrapper" :key="route.name">
+                <component :is="Component"></component>
+              </div>
+            </transition>
+          </template>
+        </RouterView>
       </el-main>
     </el-container>
   </el-container>
@@ -29,6 +35,7 @@ defineOptions({
 <style scoped lang="scss">
 $side_width: 210px;
 $header_height: 50px;
+$transition_time: 0.4s;
 
 .common-layout {
   width: 100vw;
@@ -57,5 +64,20 @@ $header_height: 50px;
       background-color: #eeeeee;
     }
   }
+}
+
+.slide-fade-enter-active,
+.slide-fade-leave-active {
+  transition: all $transition_time ease-out;
+}
+
+.slide-fade-enter-active {
+  transition-delay: $transition_time;
+}
+
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+  transform: translateX(20px);
+  opacity: 0;
 }
 </style>
