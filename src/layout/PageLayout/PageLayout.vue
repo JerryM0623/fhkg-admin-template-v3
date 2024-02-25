@@ -1,5 +1,6 @@
 <script setup>
 import { RouterView } from 'vue-router';
+import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
 import AsideMenuList from '@/layout/PageLayout/components/AsideMenuList/AsideMenuList.vue';
 import HeaderBar from '@/layout/PageLayout/components/HeaderBar/HeaderBar.vue';
 
@@ -9,27 +10,29 @@ defineOptions({
 </script>
 
 <template>
-  <el-container class="common-layout">
-    <el-aside>
-      <AsideMenuList />
-    </el-aside>
-    <el-container>
-      <el-header>
-        <HeaderBar />
-      </el-header>
-      <el-main>
-        <RouterView>
-          <template #default="{ Component, route }">
-            <transition name="slide-fade">
-              <div class="transition-wrapper" :key="route.name">
-                <component :is="Component"></component>
-              </div>
-            </transition>
-          </template>
-        </RouterView>
-      </el-main>
+  <el-config-provider :locale="zhCn">
+    <el-container class="common-layout">
+      <el-aside>
+        <AsideMenuList />
+      </el-aside>
+      <el-container>
+        <el-header>
+          <HeaderBar />
+        </el-header>
+        <el-main>
+          <RouterView>
+            <template #default="{ Component, route }">
+              <transition name="slide-fade">
+                <div class="transition-wrapper" :key="route.name">
+                  <component :is="Component"></component>
+                </div>
+              </transition>
+            </template>
+          </RouterView>
+        </el-main>
+      </el-container>
     </el-container>
-  </el-container>
+  </el-config-provider>
 </template>
 
 <style scoped lang="scss">
@@ -54,6 +57,7 @@ $transition_time: 0.4s;
     .el-header {
       width: 100%;
       height: $header_height;
+      border-bottom: 1px solid #dddddd;
     }
 
     .el-main {
@@ -61,7 +65,11 @@ $transition_time: 0.4s;
       height: calc(100vh - $header_height);
       padding: 20px;
       margin: 0;
-      background-color: #eeeeee;
+      background-color: #ffffff;
+
+      .transition-wrapper {
+        width: 100%;
+      }
     }
   }
 }
