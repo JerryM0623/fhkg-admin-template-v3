@@ -2,13 +2,17 @@
 defineOptions({
   name: 'AsideMenuList'
 })
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { Document, Setting } from '@element-plus/icons-vue'
 import { useRoute } from 'vue-router'
 
 const isCollapse = ref(false)
 const route = useRoute();
-const defaultActive = ref(route.path)
+const defaultActive = ref(route.fullPath)
+
+watch(() => route, () => {
+  defaultActive.value = route.fullPath
+}, {deep: true, immediate: true})
 
 </script>
 
